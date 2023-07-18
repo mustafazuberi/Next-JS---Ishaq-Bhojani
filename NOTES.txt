@@ -1,0 +1,136 @@
+Server Side Rendering |vs | Client Side Rendering
+
+
+
+Why key warning appears when we dont give key while mapping array
+
+Answer : Jab bh koi list render hoti ha 
+jese 4 items ki list ha tw ya jo iteration kr raha hota ha woh index ka hisab sa kar raha hota hai
+
+tw agar koi item specific item ko apne modify ya delete kardya 
+
+tw har element apne index change krlega tw ya reliable nahi ha 
+matlba agar humne index ko delete krna ha or uska index change hogaya ksi tarah tww
+
+tw har item ke sath hum ek unique key prop dete hain jo bad me change nahi ho pai gi tw react use key ka hisab se ad rekhega
+
+ise lye humein key me index nahi dena chahya 
+
+
+
+
+Component ek aesa function he Jo jsx return kr raha hota ha 
+
+
+
+State me constatnly background par check krta rhta ha ke state update tw nahi hoi or agar hoti ha tw UI par update kra deta ha 
+
+Jitni Zyada states hongi utni application slow hoti jaigi qk watchers zyada honge so...
+
+
+Jo data user ke kisi action pe update hojata ha use hum rakhte hain State me Take UI pr render ho payee
+
+Jo data Update hone ke lye nahi ha Ya jise UI par show nahi krna wo variable mee hee rakh lenge 
+
+
+
+State FUll components / Smart Components: Woh components jis me state use horahi hoo
+State Less Components / Dumb Components: Jis me state use naa hori hoo'
+
+
+State ke update hone pa pura component re render hota ha state ke update hone pe
+Humein Zyada se Zyada State less use krne chahye or jaha need ho waahaa State full components use krne chahya 
+
+PURE COMPONENTS : Aese Components jis me jb tk data same pass hota rhe ga tw jb tk output same rahega
+
+Agar parent re render horaha ha or child pure component ha tw react child ko cache me sotre krdega
+
+IMPURE COMPONENTS : Is me inpiut k matter krta ha component ki apni kuch logics hoti hain wo us pe decide krta ha ke output kya dena h 
+
+
+
+
+Hooks mostly jitny bh hain woh call hone ka bad actual function return krty hain jbhi hum use ek variable me savce krwa lete hain 
+
+
+
+
+
+ClientSide vs ServerSide Rendering | getStaticProps & getStaticPaths | Hindi/Urdu
+
+Rendering :- ksi bhi dynamic content ko apke view me rakhdena rendering kehlata ha (mtlb ksii vairabe se data html me dikha dena)
+
+phly client side rendering nahi hoti thi sirf serverside hoti thi
+
+Server Side Rendering :-
+For Example ek server hai ksi ka bhi .. tw agar koi specific page hamain load karana ha apne browser pe.. tw ap us page ke lya us server par hit marty ho jaha sa ek page set hota ha set hua wa wo response me milta ha tww ya template   agaya hamare pas 
+or url me data jaiga tw data waha sa url ke zarya nikal lenge 	aese woh page tayar krke page render kra dega 
+ise server side rendering kehte hain 
+
+server side me pre rendered html send hoti hai
+
+Client Side Rendering :-
+server se pura ka pura template uth ke ajata ha without dynamic data 
+us ke bad clien side libraries alag sa ek request bhjta hain server ko or phir dynamic data hamare samne lgate hain 
+
+
+Summaryy :-
+Server 
+is me request jati ha .. server ke pas template or content alag rakha hua ha .. template ksi template engine me rakha hota ha  ...  or content ksi data base sa ata ha ... server tempolate or data ko bind krke ek complete pre rendered html page de deta hai .
+CLIENT:-
+Client side me pura ka pura template ajata ha or data ko mangwane ka kam client side libraries krti hain alag sa request bhj ke hamare samne page create krke 
+
+
+SERVER DISADVANTAGES : -
+Server pe load barh jata tha 
+agr ek time pe millions of user online hain tw server har request ke lya template utha raha ha , data utha raha ha , phir render kr raha ha , phir deraha ha 
+
+(client side ko bas tamplate dena hota ha baki wo client side libarraires se krwa leta ha)
+
+CLIENT DISADVANTAGES :-
+is me SEO nahi ho sakti ... qk pages pre rendered nahi hota usme content template ke any ke bad client libraries se render hota ha 
+jab data hee nahi ha tw SEO kese hogi data hee nahi hoga.
+
+
+
+--------------------NEXT JS---------------------
+React me rehte hua hee server side rendering hoti ha 
+
+
+
+
+2 tarah ki compilation hoti hai
+1) AOT (A head of time ) 
+2) JIT (Just in time )
+
+
+1) AOT (A head of time ) >>> actual time se bh phly
+is me jab build bnti hai at the time of build creation .. jitna bhi content hota ha woh sara template me lgta ha or html file readyy hamre pas hly se rakhi hui hoti hai 
+request time pe use rendering krane ki zarurat nahi ha woh phly se hee rendered cache me rekhi hui hai 
+jese hrr req aigi foran file uth ke chali jaigii
+Hydration
+ye kehta ha ke jo content actually browser pe jana ha wo phly se ready hoga lekin 
+sath sath react ki library bh browser pr jaigi 
+tw first time page khali nhi jaiga data ke sath jaiga 
+is se updation wala problem solve hogaya 
+or agar page browser pe jany ka bad koi change ata ha tw wo react handle krege
+
+page rendered hoke tw chala jaiga lekin sath me updation ka solution bh milgaya tw react bh jaigi sath browser me 
+
+
+Agar humein koi dynamic data lgana hua tw page phly se render hoke kese jaiga 
+tw is ke kuch pre build functionse hote hain 
+
+
+{
+    props: {
+      title: "Hello",
+      todos: todos,
+    },
+    revalidate:10
+  };
+
+agar koi request last req ke 10 sec bad aigi tw wo page change krke dega 
+or agar last req ko 10 s hogaye tw dubara sa binding krega naya page bnayega phir dega 
+
+ 
