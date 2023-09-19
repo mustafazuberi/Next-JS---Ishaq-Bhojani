@@ -1,0 +1,156 @@
+Client Side vs Server Side Rendering
+
+
+Server Side Rendering : is me request jati ha .. server ke pas template or content alag rakha hua ha .. template ksi template engine me rakha hota ha  ...  or content ksi data base sa ata ha ... server tempolate or data ko bind krke ek complete pre rendered html page de deta hai..
+
+
+
+Client Side Rendering : Is me server se template ajata hai or render hojata h ... or phir Client side libraries se (React / angular / vue)  ya JSON me apis ke madad sa data mangwate hain or phir Hmare samne template me laga dete hain
+
+
+Main difference : 
+serverside me prerendered html page ajata h data or template dono ke sath .
+client side me template ajata h lekn data client side libraries lgati hain   
+
+
+Server Side Advantages and Disadvantages
+
+server par load barh jata hai .. jab at the time millions of users online hain tw server har request pe template uthata h data uthata ha render karta ha phir deta hai 
+tw load bhot zyada barh raha ha server slow hojaiga..
+Is se SEO ho jati ha lekn QK server se data render hoka ata h 
+
+
+Client Side Advantages and Disadvantages
+
+Client side rendering me search engine optimization nahi ho sakti qk servver se sirf template ata h data client par ane ka bad lagta hai 
+Agar Data heee nahi hoga tw kese pata chlega ke Data kis type ka ha inki website mein
+
+
+
+
+
+What's New In Nextjs
+
+React me rehte hua hee Server side rendering hoti hai...
+Jab npm run dev chalate hain tw Nextjs ka apna server run hojata or jo bhi request hit hoti h tw server hee us me koi page response me deraha hota hai
+
+client side me page dene ke bad data ata tha 
+lekn next js ke pas template tw hota hee hai.. tw nextjs wait krwate ha ...dynamic data render karata hai ... or phir response me pre rendered page deta ha ... tw is tarah React me rehte hua hee server side rendering hojati hai
+
+Jabhi next js me view page sourse me jainge tw dynamic content likha hua nazar aiga qk react me rehte hue hee server side rendering hoi h 
+lekn react me view page source me jane se dynamic content nazar nahi ata 
+
+
+нннннннннннннннннннн
+
+
+Two Types od Rendering / compilation hoti hai AOT or JIT 
+
+AOT (A head of time) :-
+is me jab build bnti hai at the time of build creation .. jitna bhi content hota ha woh sara template me lgta ha or html file readyy hamre pas hly se rakhi hui hoti hai ...
+request time pe use rendering krane ki zarurat nahi ha woh phly se hee rendered cache me rekhi hui hai ...
+jese hrr req aigi foran file uth ke chali jaigii..
+
+
+JIT (Just in time) :-
+Matlab usi waqt jese hee request aigi usii time rendering hogi 
+
+
+
+Jis tarah AOT me rendered file rakhi hou hoti hai tw jab koi change hoga UI me ksii button par click krne sa ya kisi or wja sa ... tw UI me tw change hee nahi aiga qk .... compilation hoke pre rendered page rakha hua hai...Tw is se tw asal react ka faida hee nahi .... is lye ek concept ata ha Hydration
+HYDRATION : Ya kehta ha ap ko jo prerendered page chahye woh me readdy krke rakhunga lekn sath me react ki library bh laga ke rakhunga .... take agar brwoser pe jane ka bad koi updateion ati h tw woh Reacct krdega
+Or Jo kam api se data mangwa ke karana hoga us ke lye hamare as nextjs me pre build functions rakhe hua hain woh kre deinge
+
+
+
+getStatic Props (static site generation)
+export async function getStaticProps() {
+  const todo = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const todoJson: todoObj[] = await todo.json();
+  return {
+    props: {
+      title: "Hello from get static props.",
+      todos: todoJson,
+    },
+    // notFound : true, // for example hum api me req bhjein or        	us 	query ke husab sa koi data na mile
+    // tw not found true bhj sekte hain is se 404.js wala page 	return kara 	dega
+    revalidate: 10, // Agar last time build banayee hua 10 	second nahi hoye tw 	same page dedega ..
+    // wrna again render krke dega (again build banegi)
+  };
+}
+
+getStaticProps wale page AOT pe chlte hain phly sa render hoke cache me save hote hain
+
+
+getStaticPaths Is me jo Paths dete hain woh wale pages params me jate hain or render hoke pehle se cahce me save hojate hain ... Is se kuch pages AOT pe chal jainge
+
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [
+      {
+        params: { todoId: "1" },
+      },
+    ],
+    fallback: false,
+  };
+};
+
+
+
+Agar hum aise kareinge ke fallback ko false kardein or params bna dein tw ya in sari todo is ke pages bna ker AOT wali compilation krdega or cache me pages reakhdega...
+Fallback : agar yaha par fallback false kareinge or user ne params walu todoid ke bajey kisi or pr req hit ki tw not found aiga ... 
+wrna agar fallback true hoga tw component show hoga
+
+
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [
+      {
+        params: { todoId: "1" },
+      },
+    ],
+    fallback: "blocking",
+  };
+};
+
+
+Fall back agar true hoga Or paths wali request wale params na houe tw woh according to logic component render krdega 
+agar false hoga tw koi bh page show nahi hoga except paths wale params
+agar blocking hoga tw loading state banene ki need nahi ha Woh jb tk api se response nahi ajata tb tak browser ko data denge hee nahi 
+
+
+Ya sare getStaticPaths getStaticProps AOT par kam karti hai ... sare pages build ke time pe ready hoke rekhe hoty hain 
+
+
+GET SERVER SIDE PROPS :-
+
+Jab bh option ho tw static site generation ko prefere karna chahye qk us me aot hoti h 
+IS me har bar new page ban ke jaiga tw revalidate ki zarruat nahi ha is me  
+
+server side wala page request ke time pep generate hota ha tw is lye us ke context me hamain request or response ke objects bh milte hain jo static site generation me nahi milte
+
+setServerSideProps()----(server side rendering) me woh wala data get kreinge jis ke SEO me need ha baki data hum client pe mangwa lenga
+Jese stock exchange wale graphs har second me update horeehee hain tw woh server me render karane ka faida nahi h 
+tw jo data server me need nahi h woh client me componet ke andar useEffect wagera me mangwa lenge..
+Ise HYBRID RENDERING Kehte hain . Ye browser me any ka bad data aiga tw ya client side rendering hojaigi 
+kahin kahin serverside kahin kahin client side
+
+
+Jab bh getStaticProps ya getServerSideProps ke andar 
+data fetch karainge tw woh serverside rendering hogi
+
+client side rendering jab hogi jab componet me data fetch hora hoga
+
+Next js me client or server side rendering ho sakti h.. lekn kbhi kbhi hybrid mtlb server side or client side ho sakti hai 
+client side tw simple component me data fetch hota h 
+
+server side rendering ke andar bh 2 or ajate hain 
+static generation or 2nd server sider rendeing 
+static generation me at the time of build generation content tayar hojata h 
+serverside me at the time of request page generate hoke browser ko milega
+
+
+
+Head
+agar koi seo se related chezain deni ho tw Head me de deta hain or agar head multiple times hoga tw content overwrite nahi merge hoga jo chez last head jesi ha woh overwrite ho jaigi baqi merge
